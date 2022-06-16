@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+int main()
+{
+    long long int N, L, i, oddMid, oddMin = 999, evenMid, evenMin = 999;
+    scanf("%lld%lld", &N, &L);
+    if(L%2 == 0){                                   //L이 짝수 일 때
+        i = L + 1;
+    }else{
+        i = L;
+    }
+    
+    for(;i<100;i+=2){                               //리스트의 개수가 홀수 일 때 탐색.
+        if(N%i == 0){                                 
+            oddMid = N/i;
+            if(oddMid - (i-1)/2 >= 0){
+                oddMin = i;
+                break;
+            }
+        }
+    }
+    
+    if(L%2 == 1){                                   //L이 홀수 일 때
+        i = L + 1;
+    }else{
+        i = L;
+    }
+    for(;i<101;i+=2){                               //리스트의 개수가 홀수 일 때 탐색.
+        if(2*N%i == 0 && (2*N/i)%2 == 1){                                 
+            evenMid = N/i;
+            if(evenMid - i/2 + 1 >=  0){
+                evenMin = i;
+                break;
+            }
+        }
+    }
+    
+    if(oddMin < evenMin){
+        long long int half;
+        half = (oddMin-1)/2;
+        for(i=oddMid - half;i<=oddMid + half;i++){
+            printf("%lld ", i);
+        }
+    }else if (oddMin > evenMin){
+        long long int half;
+        half = evenMin/2;
+        for(i=evenMid-half+1;i<=evenMid+half;i++){
+            printf("%lld ", i);
+        }
+    }else{
+        printf("-1");
+    }
+
+    return 0;
+}

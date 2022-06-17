@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+ 
+
+int main()
+
+{
+
+    int tree[2][51] , N, i, rmv, rmvList[51], j=1, ri, rst=0;
+    for(i=0;i<7;i++){
+        tree[0][i] = -5;                //tree 배열을 -5로 초기화.
+        tree[1][i] = 0;                //tree 배열을 -5로 초기화.
+        rmvList[i] = -5;                //rmvList 배열을 -5로 초기화.
+    }
+    scanf("%d", &N);                    //N 입력.
+    
+    for(i=0;i<N;i++){                   //반복문 N번 반복.
+        scanf("%d", &tree[0][i]);       // tree배열 입력.
+    }
+    
+    scanf("%d", &rmv);                  //rmv입력.
+    
+    tree[0][rmv] = -5;
+    rmvList[0] = rmv;                   //rmvList의 첫 값을 rmv로 설정.
+    
+    for(ri=0;ri<j;ri++){                //rmvList를 탐색하기 위한 반복문.
+        for(i=0;i<N;i++){               //rmvList의 한 값에 대하여 tree배열을 탐색하기 위한 반복문.
+            if(tree[0][i] == rmvList[ri] && tree[1][i] != -5){       //rmvList의 값이 부모 노드인 tree배열의 값 탐색. 이전에 탐색한 값인지 확인.
+                rmvList[j] = i;                                     //rmvList에 있는 노드의 자식 노드의 주소를 rmvList에 추가.
+                tree[0][i] = -5;                                    //해당 트리의 값을 비워준다.
+                tree[1][i] = -5;                                    //해당 노드는 탐색이 끝났음을 표시.
+                j++;                                                //rmvList의 다음 입력 주소 증가.
+            }
+        }
+    }
+    for(i=0;i<N;i++){                                               //tree의 배열을 탐색하기 위한 반복문.
+        if(tree[0][i] != -5){                                       //tree의 노드가 비어있지 않을 때만 실행.
+            for(j=0;j<N;j++){                                       //tree 노드의 자식이 있는지 확인.
+                if(tree[0][j] == i){                                //해당 노드의 자식있다면
+                    break;                                          //반복문 종료.
+                }
+                if(j==N-1){                                         //해당 노드의 자식이 없다면
+                    rst++;                                          //리프노드의 값 증가.
+                }
+            }
+        }
+    }
+    
+    printf("%d", rst);                                              //리프노드의 개수 출력.
+
+    return 0;
+
+}

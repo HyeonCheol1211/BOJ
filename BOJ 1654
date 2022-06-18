@@ -1,0 +1,32 @@
+#include<stdio.h>
+
+int main(){
+    
+    long long int K, N, i, ary[10001], high=0, low=1, mid, count, rst = 0;      //변수 선언. (크기에 맞게 long long int형으로 선언.)
+    scanf("%lld%lld", &K, &N);                                                  //K와 N 입력.
+    for(i=0;i<K;i++){
+        scanf("%lld", &ary[i]);                                                 //K개의 정수 ary배열에 입력.
+        if(ary[i]>high){                                                        //ary배열의 값 중 최댓값 high에 저장.
+            high = ary[i];
+        }
+    }
+    while(low <= high){                                                         //이진탐색을 위한 반복문.
+        count = 0;                                                              //가능한 랜선 개수를 저장하기 위한 변수 선언.
+        mid = (high + low)/2;                                                   //이진 탐색의 중간값.
+        for(i=0;i<K;i++){                                                       //가능한 랜선 개수를 탐색하기 위한 반복문.
+            count += ary[i]/mid;                                                //가능한 랜선 개수 파악.
+        }
+        if(count >= N){                                                         //가능한 랜선 개수가 필요한 개수보다 많거나 같을 때
+            low = mid + 1;                                                      //이진 탐색을 통해 랜선 길이 증가.
+            if(rst < mid){                                                      //가능한 개수가 나왔다면 결과값에 저장.(기존의 값보다 클 때)
+                rst = mid;                                                      //******중요****** 이진 탐색에서 high와 mid 그리고 low는 계속 변하는 값. 내가 원하는 결과값은 따로 저장하도록 하자.
+            }
+        }else{
+            high = mid - 1;                                                     //이진 탐색을 통한 랜선 길이 감소.
+        }
+    }
+    
+    printf("%lld", rst);                                                        //결과값 출력.
+    
+    return 0;
+}

@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+int main()
+{
+    int ary[10001]={0,}, N, M, i, money, mid, high=0, low=1, rst=0, total=0;    //변수 선언.
+    scanf("%d", &N);                                                            //N입력.
+    for(i=0;i<N;i++){                                                           //N개의 배열값을 입력받기 위한 반복문.
+        scanf("%d", &ary[i]);                                                   //배열값 입력.
+        total += ary[i];                                                        //배열들의 총 합 저장.
+        high = (high < ary[i]) ? ary[i] : high;                                 //배열값 중 최댓값 저장.
+    }
+    scanf("%d", &M);                                                            //M값 입력.
+    if(total <= M){                                                             //예산 요청값의 총합이 예산보다 작거나 같다면
+        printf("%d", high);                                                     //예산 요청 최댓값 출력.
+    }else{                                                                      //예산 요청값의 총합이 예산보다 크거나 같다면
+        high = M;                                                               //high값을 M으로 설정.
+        while(low <= high){                                                     //이진탐색을 위한 반복문.
+            mid = (low + high)/2;                                               //이진탐색의 중간값 설정.
+            money = M;                                                          //계산에 사용할 예산(M) 설정.
+            for(i=0;i<N;i++){                                                   //배열 탐색을 위한 반복문.
+                if(ary[i] <= mid){                                              //요청 예산이 예상 평균값보다 같거나 작으면
+                    money -= ary[i];                                            //요청 예산만큼 할당. 예산은 해당 값만큼 차감.
+                }else{
+                    money -= mid;                                               //요청 예산이 예상 평균값보다 크면 평균값만큼만 할당. 예산 또한 평균값만큼 차감.           
+                }
+            }
+            if(money < 0){                                                      //마지막 예산이 음수(예산부족)이면
+                high = mid - 1;                                                 //평균 예산값이 크므로 high를 감소.
+            }else if(money >= 0){                                               //예산값이 양수면
+                low = mid + 1;                                                  //최대 평균 예산값을 구하기 위하여 low 증가.
+                rst = (rst > mid) ? rst : mid;                                  //가능한 예산값이 rst값보다 크다면 rst값에 저장.
+            }
+        }
+    
+        printf("%d", rst);                                                      //결과값 출력.
+        
+    }
+    
+    return 0;
+}
